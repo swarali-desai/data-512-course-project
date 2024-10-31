@@ -123,3 +123,7 @@ In this analysis, I utilized an ARIMA (AutoRegressive Integrated Moving Average)
 
 The code data visuals can be found within `src/data_visualization_smoke_estimate.ipynb`
 Reflection for the visuals can also be found [here](https://docs.google.com/document/d/1ZJ8EhwwrAwyVSU1loB1V98pQr32JTgW5a-nTIsWm5_I/edit?usp=sharing)
+
+## Common Analysis - Reflection
+
+https://docs.google.com/document/d/1ZJ8EhwwrAwyVSU1loB1V98pQr32JTgW5a-nTIsWm5_I/edit?usp=sharing
