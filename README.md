@@ -46,6 +46,13 @@ City assigned to me:
 |--------|---------|----------|------|----------|-------|--------------|------------|-----------------|----------|
 swarali |Desai |Swarali |swarali@uw.edu |Alexandria |VA |155,230 |159,467 |10,702 |38.82°N 77.08°W
 
+## Usage
+`estimate_wildfire_smoke_impacts.ipynb` : This notebook will calculate the smoke estimates and collect the wildfire data.
+`estimate_wildfire_smoke_impacts.ipynb`  : This notebook will get the AQI data for monitoring stations near Alexandria.
+`data_visualization_smoke_estimate.ipynb` : This notebook will create the data visualizations.
+
+To run all of these notebooks we need to install a few packages which are included at the top of every notebook. Running every cell in these notebooks will result in creating intermediary files.
+
 ## Data Aquisition
 
 I am analyzing forest fires in [Alexandria, VA](https://en.wikipedia.org/wiki/Alexandria,_Virginia). Alexandria is an independent city (not bound to any county), in the northern region of the Commonwealth of Virginia, United States. The latitude and longitude information is acquired from Wikipedia. Using the reference code provided I have gathered the wildfire data for places around Alexandria using the latitude and longitude information.
