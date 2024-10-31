@@ -117,6 +117,7 @@ The final dataframe has the following structure which is resulted by joining the
 The code for predictive model can be found within `src/estimate_wildfire_smoke_impacts.ipynb`
 
 As the fire data is seasonal time series I have decided to implement a ARIMA model which takes the smoke estimate we have built and predicts till 2025.
+In this analysis, I utilized an ARIMA (AutoRegressive Integrated Moving Average) model to forecast wildfire smoke impacts, incorporating wildfire data as external variables within a time-series forecasting framework. This approach combines the strengths of time series analysis and regression, allowing the model to capture both temporal patterns in smoke estimates and the influence of wildfires on air quality.
 
 ## Data Visualizations
 
