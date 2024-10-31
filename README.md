@@ -25,11 +25,7 @@ The Combined Wildland Fire Dataset API provides access to historical wildfire da
 
 The EPA AQS API provides historical air quality data across the United States, with standardized measurements beginning in the 1980s: https://aqs.epa.gov/data/api/
 
-#### Authentication
-
-Requires API key
-[Request API key here](https://aqs.epa.gov/data/api/signup)
-Key must be included in all requests
+This API will require you to sign up and authenticate details are added in the notebook: `epa_air_quality_history.ipynb`
 
 #### Rate Limits
 
@@ -48,7 +44,7 @@ swarali |Desai |Swarali |swarali@uw.edu |Alexandria |VA |155,230 |159,467 |10,70
 
 ## Usage
 `estimate_wildfire_smoke_impacts.ipynb` : This notebook will calculate the smoke estimates and collect the wildfire data.
-`estimate_wildfire_smoke_impacts.ipynb`  : This notebook will get the AQI data for monitoring stations near Alexandria.
+`epa_air_quality_history.ipynb`  : This notebook will get the AQI data for monitoring stations near Alexandria.
 `data_visualization_smoke_estimate.ipynb` : This notebook will create the data visualizations.
 
 To run all of these notebooks we need to install a few packages which are included at the top of every notebook. Running every cell in these notebooks will result in creating intermediary files.
