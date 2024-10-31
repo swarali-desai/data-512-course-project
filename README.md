@@ -7,7 +7,7 @@
 More and more frequently summers in the western US have been characterized by wildfires with smoke billowing across multiple western states. There are many proposed causes for this: climate change, US Forestry policy, growing awareness, just to name a few. Regardless of the cause, the impact of wildland fires is widespread as wildfire smoke reduces the air quality of many cities. There is a growing body of work pointing to the negative impacts of smoke on health, tourism, property, and other aspects of society.
 The course project will require that you analyze wildfire impacts on a specific city in the US. The end goal is to be able to inform policy makers, city managers, city councils, or other civic institutions, to make an informed plan for how they could or whether they should make plans to mitigate future impacts from wildfires.
 
-# License
+## License
 
 Snippets from this code example was developed by Dr. David W. McDonald for use in DATA 512, a course in the UW MS Data Science degree program. This code is provided under the [Creative Commons](https://creativecommons.org) [CC-BY license](https://creativecommons.org/licenses/by/4.0/). Revision 1.1 - August 16, 2024 and [Creative Commons](https://creativecommons.org) [CC-BY license](https://creativecommons.org/licenses/by/4.0/). Revision 1.2 - August 16, 2024
 
@@ -15,9 +15,27 @@ Rest of the code is under MIT license
 
 Note: ChatGPT was used to make the initial code more efficient.
 
-## Step 0: Data acquisition
+## API Documentation
 
-#### Data source:
+#### 1. USGS Wildfire Dataset API
+
+The Combined Wildland Fire Dataset API provides access to historical wildfire data across the United States from the 1800s to present.Dataset Access: https://www.sciencebase.gov/catalog/item/61aa537dd34eb622f699df81
+
+#### 2. EPA Air Quality System (AQS) API
+
+The EPA AQS API provides historical air quality data across the United States, with standardized measurements beginning in the 1980s: https://aqs.epa.gov/data/api/
+
+#### Authentication
+
+    Requires API key
+    [Request API key here](https://aqs.epa.gov/data/api/signup)
+    Key must be included in all requests
+
+#### Rate Limits
+
+    Please refer to [EPA's AirData FAQ](https://www.epa.gov/outdoor-air-quality-data/frequent-questions-about-airdata) for current rate limits
+
+## Data source:
 
 [Combined wildland fire datasets for the United States and certain territories, 1800s-Present (combined wildland fire polygons)](https://www.sciencebase.gov/catalog/item/61aa537dd34eb622f699df81) dataset is used for analysis. The combined dataset downloaded has only one fire per year in a given area with one set of attributes. This dataset is intended to create a more comprehensive fire dataset than the existing datasets while eliminating duplication of fire polygons and attributes. It takes about 7-8 minutes to download the data.
 
@@ -28,7 +46,7 @@ City assigned to me:
 |--------|---------|----------|------|----------|-------|--------------|------------|-----------------|----------|
 swarali |Desai |Swarali |swarali@uw.edu |Alexandria |VA |155,230 |159,467 |10,702 |38.82°N 77.08°W
 
-## Step 0: Data Aquisition
+## Data Aquisition
 
 I am analyzing forest fires in [Alexandria, VA](https://en.wikipedia.org/wiki/Alexandria,_Virginia). Alexandria is an independent city (not bound to any county), in the northern region of the Commonwealth of Virginia, United States. The latitude and longitude information is acquired from Wikipedia. Using the reference code provided I have gathered the wildfire data for places around Alexandria using the latitude and longitude information.
 
@@ -36,7 +54,7 @@ Note: The data aquisition process is very long and to optimize I have implemente
 
 Note: Every intermediary file generated is too large to upload on github. If one wishes to veiw these they can be found [here](https://drive.google.com/drive/folders/1dWt8MMqGIDIjCQV1C0WSVlquPa3h5bz_?usp=drive_link)
 
-## Step 1: Create fire smoke estimates
+## Creating fire smoke estimates
 
 The code to develop smoke estimate can be found within `src/estimate_wildfire_smoke_impacts.ipynb`
 
@@ -70,7 +88,7 @@ Finally the `smoke_estimate` calculation is derived from several wildfire attrib
 -   **`size`**: The size of the fire in acres.
 -   **`shortest_distance`**: The closest distance of the fire to the target location, with closer fires having a more significant impact.
 
-## Step 2: Gathering AQI data
+## Gathering AQI data
 
 The code to gather data can be found within `/src/epa_air_quality_history.ipynb`
 
@@ -94,13 +112,13 @@ The final dataframe has the following structure which is resulted by joining the
 | **first_max_value**  | Maximum recorded value in the time period   | `0.0`               |
 | **aqi**              | Air Quality Index                           | `NaN` or `0.0`      |
 
-## Step 3: Building a predictive model
+## Predictive time series model
 
 The code for predictive model can be found within `src/estimate_wildfire_smoke_impacts.ipynb`
 
 As the fire data is seasonal time series I have decided to implement a ARIMA model which takes the smoke estimate we have built and predicts till 2025.
 
-## Step 4: Data Visualizations
+## Data Visualizations
 
 The code data visuals can be found within `src/data_visualization_smoke_estimate.ipynb`
 Reflection for the visuals can also be found [here](https://docs.google.com/document/d/1ZJ8EhwwrAwyVSU1loB1V98pQr32JTgW5a-nTIsWm5_I/edit?usp=sharing)
