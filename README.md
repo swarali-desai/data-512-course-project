@@ -27,13 +27,13 @@ The EPA AQS API provides historical air quality data across the United States, w
 
 #### Authentication
 
-    Requires API key
-    [Request API key here](https://aqs.epa.gov/data/api/signup)
-    Key must be included in all requests
+Requires API key
+[Request API key here](https://aqs.epa.gov/data/api/signup)
+Key must be included in all requests
 
 #### Rate Limits
 
-    Please refer to [EPA's AirData FAQ](https://www.epa.gov/outdoor-air-quality-data/frequent-questions-about-airdata) for current rate limits
+Please refer to [EPA's AirData FAQ](https://www.epa.gov/outdoor-air-quality-data/frequent-questions-about-airdata) for current rate limits
 
 ## Data source:
 
