@@ -19,7 +19,7 @@ In this course project I will focus on analyzing the health impact of wildfire s
 
 A secondary goal of this work is to develop the reproducibility & professionalism skills required for real-world data-driven analysis as part of the Fall 2024 DATA 512 course at the University of Washington.
 
-More details can be found in the [project report](https://docs.google.com/document/d/1MtXxm5HH9N6pU26YqGjnJ8PF4T9wXpMolHk6RiHlufg/edit?tab=t.0)
+More details can be found in the [project report](Final_report.pdf)
 
 ## API Documentation
 
@@ -31,11 +31,12 @@ The Combined Wildland Fire Dataset API provides access to historical wildfire da
 
 The EPA AQS API provides historical air quality data across the United States, with standardized measurements beginning in the 1980s: https://aqs.epa.gov/data/api/
 
-This API will require you to sign up and authenticate details are added in the notebook: `epa_air_quality_history.ipynb`
+This API will require you to sign up and authenticate details are added in the notebook: [2_generate_AQI_data.ipynb](src/2_generate_AQI_data.ipynb)
 
-#### Rate Limits
+Note:
+_Rate Limits_
 
-Please refer to [EPA's AirData FAQ](https://www.epa.gov/outdoor-air-quality-data/frequent-questions-about-airdata) for current rate limits
+_Please refer to [EPA's AirData FAQ](https://www.epa.gov/outdoor-air-quality-data/frequent-questions-about-airdata) for current rate limits_
 
 #### Packages
 
@@ -46,7 +47,9 @@ Please refer to [EPA's AirData FAQ](https://www.epa.gov/outdoor-air-quality-data
 
 To install any of these libraries I have included the installation command using pip in the begininng of every notebook.
 
-## Data source:
+## Data
+
+#### sources:
 
 [Combined wildland fire datasets for the United States and certain territories, 1800s-Present (combined wildland fire polygons)](https://www.sciencebase.gov/catalog/item/61aa537dd34eb622f699df81) dataset is used for analysis. You will need to download the data and place it under this location `raw_data/USGS_Wildland_Fire_Combined_Dataset.json`.This file is not committed to the repository since its size exceeds the allowed limits of git. It takes about 7-8 minutes to download the data which is 2.7GB.
 
@@ -109,61 +112,13 @@ Age-adjusted Rate of Hospitalizations for Asthma/COPD per 10,000 Population for 
 | **Unnamed: 5**   | Placeholder for missing or unused data; typically blank (e.g., NaN).                                             |
 | **Cause**        | Identifies the cause associated with the recorded value (e.g., Cause: Fire, Cause: Unknown Mechanism or Intent). |
 
-## Set-up required
-
-## Usage
-
-`estimate_wildfire_smoke_impacts.ipynb` : This notebook will calculate the smoke estimates and collect the wildfire data.
-`epa_air_quality_history.ipynb` : This notebook will get the AQI data for monitoring stations near Alexandria.
-`data_visualization_smoke_estimate.ipynb` : This notebook will create the data visualizations.
-
-To run all of these notebooks we need to install a few packages which are included at the top of every notebook. Running every cell in these notebooks will result in creating intermediary files.
-
-## Data Aquisition
+#### Aquisition and processing
 
 I am analyzing forest fires in [Alexandria, VA](https://en.wikipedia.org/wiki/Alexandria,_Virginia). Alexandria is an independent city (not bound to any county), in the northern region of the Commonwealth of Virginia, United States. The latitude and longitude information is acquired from Wikipedia. Using the reference code provided I have gathered the wildfire data for places around Alexandria using the latitude and longitude information.
 
-Note: The data aquisition process is very long and to optimize I have implemented multithreading which requires multiple cores to run the code thus the total time taken to process the code was about 40 minutes. I have added the code to run on single core in the appendix section of the `estimate_wildfire_smoke_impacts.ipynb` notebook.
+The data aquisition process for wildfire is very long and to optimize I have implemented multithreading which requires multiple cores to run the code thus the total time taken to process the code was about 40 minutes. I have added the code to run on single core in the appendix section of the [1_generate_smoke_estimates.ipynb](/src/1_generate_smoke_estimates.ipynb) notebook.
 
-Note: Every intermediary file generated is too large to upload on github. If one wishes to veiw these they can be found [here](https://drive.google.com/drive/folders/1dWt8MMqGIDIjCQV1C0WSVlquPa3h5bz_?usp=drive_link)
-
-## Creating fire smoke estimates
-
-The code to develop smoke estimate can be found within `src/estimate_wildfire_smoke_impacts.ipynb`
-
-As part of part 1 - Common analysis I need to find annual estimate of smoke seen by Alexandria, VA during the fire season.
-
-Smoke estimate should adhere to the following conditions:
-
--   The estimate only considers the last 60 years of wildland fire data (1961-2021).
--   The estimate only considers fires that are within 650 miles of your assigned city.
--   Defines the annual fire season as running from May 1st through October 31st.
-
-Key factors:
-
--   Linear Decay of Impact by Distance: We assume that the smoke effect decreases linearly with distance.
--   Direct Proportionality to Fire Size: Larger fires produce more smoke, which affects the air quality more.
--   Cumulative Annual Smoke: A cumulative smoke effect for each year is initially used to give an aggregate yearly smoke estimate for simplicity.
--   Circleness_scale is used to represent the intensity of the fire with reference to [this](https://wfca.com/wildfire-articles/fire-intensity-an-in-depth-guide/)
-
-My idea for smoke estimate to find the annual smoke estimates which is inversely propotional to the distance of the fire from the city and directly propotional to the size of the fire. The intensity of the fire is depended on the circleness_scale which determines how intense the fire was. Thus it is directly proportional in my estimate with some adjustment. The type of fire was encoded for calculation and was propotional to my smoke estimate. There could also be other factors like the wind conditions and seasons which might affect the smoke estimates but this information is not available to us right now, otherwise that could be used as factor to be multiplied.
-
-### Smoke Estimate Calculation
-
-Finally the `smoke_estimate` calculation is derived from several wildfire attributes, using the following formula:
-
-`smoke_estimate = ((0.5 + circleness_scale) / 2) * fire_type_encoded * size * (1 / shortest_distance)`
-
-#### Formula Components
-
--   **`circleness_scale`**: A shape factor, with values closer to 1 indicating more circular fires.
--   **`fire_type_encoded`**: Encoded numeric value for the fire type, allowing differentiation between fire types.
--   **`size`**: The size of the fire in acres.
--   **`shortest_distance`**: The closest distance of the fire to the target location, with closer fires having a more significant impact.
-
-## Gathering AQI data
-
-The code to gather data can be found within `/src/epa_air_quality_history.ipynb`
+The code to gather data can be found within [2_generate_AQI_data.ipynb](/src/2_generate_AQI_data.ipynb)
 
 We need to get the actual AQI data from the monitoring stations around Alexandria. For this I have implemented the bounding box approach which requires about 50 minutes to run to get the particulate and gaseous particle data.
 
@@ -185,21 +140,90 @@ The final dataframe has the following structure which is resulted by joining the
 | **first_max_value**  | Maximum recorded value in the time period   | `0.0`               |
 | **aqi**              | Air Quality Index                           | `NaN` or `0.0`      |
 
-## Predictive time series model
+## Set-up required
 
-The code for predictive model can be found within `src/estimate_wildfire_smoke_impacts.ipynb`
+This work assumes that users have a working Jupyter Notebook & Python 3 setup. Instructions on installing them can be found [here](https://docs.jupyter.org/en/latest/install/notebook-classic.html). Rest of the required libraries and their installation is handlled in the individual notebooks using the pip command.
 
-As the fire data is seasonal time series I have decided to implement a ARIMA model which takes the smoke estimate we have built and predicts till 2025.
+## Usage
+
+It is preffered to run the notebooks in the following order
+
+`1_generate_smoke_estimates.ipynb`  
+ Generates historical smoke estimates for Alexandria, Virginia, using wildfire data. The notebook processes raw wildfire datasets, calculates proximity and fire size, and applies a smoke estimation formula to quantify smoke levels based on distance and fire characteristics.
+
+`2_generate_AQI_data.ipynb`  
+ Retrieves historical Air Quality Index (AQI) data for Alexandria, VA, using the EPA's AQS API. The notebook processes raw API data for monitoring stations within a 50-mile radius and computes annual average AQI values.
+
+`3_smoke_estimate_forecasting.ipynb`  
+ Forecasts future smoke estimates for Alexandria based on historical trends using the ARIMA time-series model. The notebook integrates smoke estimates with AQI data to analyze correlations and predict future smoke levels.
+
+`4_data_visualization_smoke_estimate.ipynb`  
+ Visualizes wildfire smoke estimates and their trends through histograms and time-series plots. The notebook highlights spatial distribution, annual trends, and the relationship between smoke estimates and AQI values.
+
+`5_health_data_exploration.ipynb`  
+ Explores health-related data, including asthma and COPD hospitalizations and mortality rates. The notebook analyzes trends over time, investigates gender disparities, and assesses correlations with wildfire smoke estimates.
+
+`6_health_impact_forecast.ipynb`  
+ Forecasts the future impact of wildfire smoke on health outcomes, specifically asthma and COPD hospitalizations and mortality. The notebook uses SARIMAX models to predict long-term health trends based on smoke exposure and demographic factors.
+
+Running every cell in these notebooks will result in creating intermediary files.
+
+Note: Every intermediary file generated is too large to upload on github. If one wishes to veiw these they can be found [here](https://drive.google.com/drive/folders/1dWt8MMqGIDIjCQV1C0WSVlquPa3h5bz_?usp=drive_link)
+
+## Calculating fire smoke estimates
+
+The code to develop smoke estimate can be found within `src/1_generate_smoke_estimates.ipynb`
+
+As part of part 1 - Common analysis I had to find annual estimate of smoke seen by Alexandria, VA during the fire season.
+
+Smoke estimate should adhere to the following conditions:
+
+-   The estimate only considers the last 60 years of wildland fire data (1961-2021).
+-   The estimate only considers fires that are within 650 miles of your assigned city.
+-   Defines the annual fire season as running from May 1st through October 31st.
+
+Key factors:
+
+-   Linear Decay of Impact by Distance: We assume that the smoke effect decreases linearly with distance.
+-   Direct Proportionality to Fire Size: Larger fires produce more smoke, which affects the air quality more.
+-   Cumulative Annual Smoke: A cumulative smoke effect for each year is initially used to give an aggregate yearly smoke estimate for simplicity.
+-   Circleness_scale is used to represent the intensity of the fire with reference to [this](https://wfca.com/wildfire-articles/fire-intensity-an-in-depth-guide/)
+
+**Rationale**
+
+My idea for smoke estimate to find the annual smoke estimates which is inversely propotional to the distance of the fire from the city and directly propotional to the size of the fire. The intensity of the fire is depended on the circleness_scale which determines how intense the fire was. Thus it is directly proportional in my estimate with some adjustment. The type of fire was encoded for calculation and was propotional to my smoke estimate. There could also be other factors like the wind conditions and seasons which might affect the smoke estimates but this information is not available to us right now, otherwise that could be used as factor to be multiplied.
+
+Finally the `smoke_estimate` calculation is derived from several wildfire attributes, using the following formula:
+
+`smoke_estimate = ((0.5 + circleness_scale) / 2) * fire_type_encoded * size * (1 / shortest_distance)`
+
+-   **`circleness_scale`**: A shape factor, with values closer to 1 indicating more circular fires.
+-   **`fire_type_encoded`**: Encoded numeric value for the fire type, allowing differentiation between fire types.
+-   **`size`**: The size of the fire in acres.
+-   **`shortest_distance`**: The closest distance of the fire to the target location, with closer fires having a more significant impact.
+
+## Forecasting models
+
+**1. Smoke estimate forecast**
+
+The code for predictive model can be found within `src/3_smoke_estimate_forecasting.ipynb`
+
 In this analysis, I utilized an ARIMA (AutoRegressive Integrated Moving Average) model to forecast wildfire smoke impacts, incorporating wildfire data as external variables within a time-series forecasting framework. This approach combines the strengths of time series analysis and regression, allowing the model to capture both temporal patterns in smoke estimates and the influence of wildfires on air quality.
 
-## Data Visualizations
+**2. Health impact forecast**
 
-The code data visuals can be found within `src/data_visualization_smoke_estimate.ipynb`
-Reflection for the visuals can also be found [here](https://docs.google.com/document/d/1ZJ8EhwwrAwyVSU1loB1V98pQr32JTgW5a-nTIsWm5_I/edit?usp=sharing)
+The code for the model can be found within `src/6_health_impact_forecast.ipynb`
 
-## Common Analysis - Reflection
+I chose to use an ARIMAX model for its ability to handle exogenous factors which were smoke estimates in my case, enabling robust forecasts of health impacts over a 30-year for Alexandria.
+I have built separate models to analyse the effect of smoke on hospitalization and mortality for men and women.
 
-https://docs.google.com/document/d/1ZJ8EhwwrAwyVSU1loB1V98pQr32JTgW5a-nTIsWm5_I/edit?usp=sharing
+## Findings and Conclusion
+
+### Findings and Conclusion
+
+This study explored the impact of wildfire smoke on respiratory health in Alexandria, Virginia, focusing on asthma and COPD. The findings revealed a weak correlation between smoke exposure and mortality but a moderate link to COPD hospitalizations, particularly among females, highlighting gender disparities. Forecasts showed stable smoke exposure and hospitalization trends over the next three decades, suggesting no significant changes under current conditions.
+
+The analysis highlights the need for targeted public health measures, improved air quality monitoring, and enhanced healthcare infrastructure. Limitations in data and model accuracy underscore the need for future research to refine predictions, integrate real-time data, and address cross-border wildfire contributions. This study demonstrates the value of data-driven approaches in informing public health strategies.
 
 ## License
 
@@ -207,6 +231,29 @@ Snippets from this code example was developed by Dr. David W. McDonald for use i
 
 Rest of the code is under MIT license
 
-Note: ChatGPT was used to improve code efficiency
-
 ## References
+
+-   https://www.epa.gov/wildfire-smoke-course/health-effects-attributed-wildfire-smoke
+
+-   https://ecology.wa.gov/air-climate/air-quality/smoke-fire/health-effects
+
+-   https://www.epa.gov/wildfire-smoke-course/why-wildfire-smoke-health-concern
+
+-   https://www.lung.org/blog/how-wildfires-affect-health
+
+-   https://www.alexandriava.gov/health-department/ahd-publications-reports
+
+-   https://usafacts.org/data/topics/people-society/population-and-demographics/our-changing-population/state/virginia/county/alexandria-city/
+-   Alexandria climate data to study confounding factors:
+    https://climatecheck.com/virginia/alexandria
+
+-   Alexandria wildfire risk data:
+    https://firststreet.org/city/alexandria-va/5101000_fsid/fire?utm_source=redfin
+
+-   canadian wildfires June 7 2023 impact of Alexandria:
+    https://www.cnn.com/us/live-news/us-air-quality-canadian-wildfires-06-07-23/index.html
+    https://www.alexandriava.gov/news-tes/2023-06-07/air-quality-action-day-notice
+
+-   https://climatecheck.com/virginia/alexandria
+
+Note: ChatGPT was used to improve code efficiency

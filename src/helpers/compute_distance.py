@@ -1,10 +1,25 @@
 from pyproj import Transformer, Geod
 
-#    Transform feature geometry data
-#
-#    The function takes one parameter, a list of ESRI:102008 coordinates that will be transformed to EPSG:4326
-#    The function returns a list of coordinates in EPSG:4326
+
 def convert_ring_to_epsg4326(ring_data=None):
+    """
+    Convert a list of coordinates from ESRI:102008 projection to EPSG:4326 (WGS84) coordinate system.
+
+    Args:
+        ring_data (list): A list of tuples, where each tuple contains x, y coordinates 
+            in the ESRI:102008 projection.
+
+    Returns:
+        list: A list of tuples, where each tuple contains latitude and longitude 
+            in the EPSG:4326 (WGS84) coordinate system.
+
+    Notes:
+        - The conversion is performed using a PyProj `Transformer` object.
+        - ESRI:102008 is typically used for North America Albers Equal Area projections, 
+          and EPSG:4326 represents the WGS84 geographic coordinate system.
+        - Each coordinate in `ring_data` is transformed and appended to the output list.
+
+    """
     converted_ring = list()
     #
     # We use a pyproj transformer that converts from ESRI:102008 to EPSG:4326 to transform the list of coordinates
@@ -16,13 +31,31 @@ def convert_ring_to_epsg4326(ring_data=None):
         converted_ring.append(new_coord)
     return converted_ring
 
-#    The function takes two parameters
-#        A place - which is coordinate point (list or tuple with two items, (lat,lon) in decimal degrees EPSG:4326
-#        Ring_data - a list of decimal degree coordinates for the fire boundary
-#
-#    The function returns a list containing the shortest distance to the perimeter and the point where that is
-#
+
 def shortest_distance_from_place_to_fire_perimeter(place=None,ring_data=None):
+    """
+    Calculate the shortest distance (in miles) and the corresponding point on the fire perimeter
+    from a given location.
+
+    Args:
+        place (tuple): A tuple representing the latitude and longitude of the place 
+            in the format (latitude, longitude).
+        ring_data (list): A list of coordinate pairs (latitude, longitude) representing 
+            the vertices of the fire perimeter polygon.
+
+    Returns:
+        list: A list containing two elements:
+            - float: The shortest distance from the given location to the fire perimeter, in miles.
+            - tuple: The latitude and longitude of the closest point on the fire perimeter.
+
+    Notes:
+        - The function converts the ring data to the WGS84 coordinate system using 
+          the `convert_ring_to_epsg4326` function.
+        - Distance calculations are performed using the geodesic distance on the WGS84 ellipsoid.
+        - The fire perimeter is assumed to be a closed polygon, and the calculation 
+          considers all points in the perimeter.
+
+    """
     # convert the ring data to the right coordinate system
     ring = convert_ring_to_epsg4326(ring_data)    
     # create a epsg4326 compliant object - which is what the WGS84 ellipsoid is
@@ -44,13 +77,28 @@ def shortest_distance_from_place_to_fire_perimeter(place=None,ring_data=None):
             closest_point.append(point)
     return closest_point
 
-#    The function takes two parameters
-#        A place - which is coordinate point (list or tuple with two items, (lat,lon) in decimal degrees EPSG:4326
-#        Ring_data - a list of decimal degree coordinates for the fire boundary
-#
-#    The function returns the average miles from boundary to the place
-#
+
 def average_distance_from_place_to_fire_perimeter(place=None,ring_data=None):
+    """
+    Calculate the average distance (in miles) from a given location to the perimeter of a fire, represented as a polygon.
+
+    Args:
+        place (tuple): A tuple representing the latitude and longitude of the place 
+            in the format (latitude, longitude).
+        ring_data (list): A list of coordinate pairs (latitude, longitude) representing 
+            the vertices of the fire perimeter polygon.
+
+    Returns:
+        float: The average distance from the given location to the fire perimeter, in miles.
+
+    Notes:
+        - The function converts the ring data to the WGS84 coordinate system using 
+          the `convert_ring_to_epsg4326` function.
+        - Distance calculations are performed using the geodesic distance on the WGS84 ellipsoid.
+        - The fire perimeter is assumed to be a closed polygon, and the duplicate endpoint is 
+          excluded from the average distance calculation to avoid bias.
+
+    """
     # convert the ring data to the right coordinate system
     ring = convert_ring_to_epsg4326(ring_data)    
     # create a epsg4326 compliant object - which is what the WGS84 ellipsoid is
