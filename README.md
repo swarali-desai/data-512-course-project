@@ -217,6 +217,18 @@ The code for the model can be found within `src/6_health_impact_forecast.ipynb`
 I chose to use an ARIMAX model for its ability to handle exogenous factors which were smoke estimates in my case, enabling robust forecasts of health impacts over a 30-year for Alexandria.
 I have built separate models to analyse the effect of smoke on hospitalization and mortality for men and women.
 
+## Limitations
+
+1. **Data Availability**: The study was limited by incomplete mortality data before 2010 and the inability to access Virginia Respiratory Diseases Data, which restricted the scope of the analysis on smoke-related respiratory impacts.
+
+2. **Dependence on Historical Data**: Variations in reporting practices and methodologies in historical data introduce inconsistencies, impacting the reliability of conclusions.
+
+3. **Simplified Smoke Model**: The smoke model excluded critical factors like wind patterns, fire intensity, and cross-border wildfire contributions, limiting its comprehensiveness and accuracy.
+
+4. **Scope of Wildfire Data**: The analysis focused only on US wildfires, overlooking contributions from Canadian fires, which are known to impact Alexandria's air quality.
+
+5. **Observational Study Design**: As an observational study, the analysis identifies associations but cannot establish causation. The effect size remains uncertain due to the limitations in metric estimation.
+
 ## Findings and Conclusion
 
 This study explored the impact of wildfire smoke on respiratory health in Alexandria, Virginia, focusing on asthma and COPD. The findings revealed a weak correlation between smoke exposure and mortality but a moderate link to COPD hospitalizations, particularly among females, highlighting gender disparities. Forecasts showed stable smoke exposure and hospitalization trends over the next three decades, suggesting no significant changes under current conditions.
@@ -227,7 +239,24 @@ The analysis highlights the need for targeted public health measures, improved a
 
 Snippets from this code example was developed by Dr. David W. McDonald for use in DATA 512, a course in the UW MS Data Science degree program. This code is provided under the [Creative Commons](https://creativecommons.org) [CC-BY license](https://creativecommons.org/licenses/by/4.0/). Revision 1.1 - August 16, 2024 and [Creative Commons](https://creativecommons.org) [CC-BY license](https://creativecommons.org/licenses/by/4.0/). Revision 1.2 - August 16, 2024
 
-Rest of the code is under MIT license
+Rest of the code is under [MIT license](LICENSE)
+
+**Data license**
+
+Data pertaining to Wildland Fires, provided by the USGS, are [publicly available](https://www.sciencebase.gov/catalog/item/53f6271fe4b09d12e0e9bd03) and not subject to copyright restrictions. However they can be cited as below.
+
+```
+Welty, J.L., and Jeffries, M.I., 2021, Combined wildland fire datasets for the United States and certain territories, 1800s-Present: U.S. Geological Survey data release, https://doi.org/10.5066/P9ZXGFY3.
+```
+
+AQI data accessed through the EPA API lies in the [public domain](https://edg.epa.gov/epa_data_license.html) and is not subject to domestic copyright protection under 17 U.S.C. § 105.
+
+Mortality data obtained from Institute for Health Metrics and Evaluation (IHME) is free for [non-commercial research purposes](https://www.healthdata.org/Data-tools-practices/data-practices/ihme-free-charge-non-commercial-user-agreement) but must be cited as below
+
+```
+Global Burden of Disease Collaborative Network. Global Burden of Disease Study 2021 (GBD 2021) Results. Seattle, United States: Institute for Health Metrics and Evaluation (IHME), 2022.
+https://vizhub.healthdata.org/gbd-results/.
+```
 
 ## References
 
