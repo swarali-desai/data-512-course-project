@@ -19,7 +19,7 @@ In this course project I will focus on analyzing the health impact of wildfire s
 
 A secondary goal of this work is to develop the reproducibility & professionalism skills required for real-world data-driven analysis as part of the Fall 2024 DATA 512 course at the University of Washington.
 
-More details can be found in the [project report](Final_report.pdf)
+More details can be found in the [project report](Finalreport_data512.pdf)
 
 ## API Documentation
 
@@ -216,6 +216,73 @@ The code for the model can be found within `src/6_health_impact_forecast.ipynb`
 
 I chose to use an ARIMAX model for its ability to handle exogenous factors which were smoke estimates in my case, enabling robust forecasts of health impacts over a 30-year for Alexandria.
 I have built separate models to analyse the effect of smoke on hospitalization and mortality for men and women.
+
+## Generated intermediary files
+
+`hospitalization_asthma_copd.csv` : This contains hospitalization processed data for ALexandria
+
+| Column Name        | Data Type | Description                                                               |
+| ------------------ | --------- | ------------------------------------------------------------------------- |
+| `year`             | Integer   | The year of the recorded hospitalizations.                                |
+| `sex`              | String    | Gender of the population (e.g., Male, Female, Both).                      |
+| `age_group`        | String    | Age group of the population (e.g., 0-17, 18-44, 45-64, 65+).              |
+| `diagnosis`        | String    | The condition being reported (e.g., Asthma, COPD).                        |
+| `hospitalizations` | Integer   | Total number of hospitalizations for the given demographic and condition. |
+| `rate`             | Float     | Age-adjusted rate of hospitalizations per 10,000 population.              |
+
+---
+
+`mortality_asthma_copd.csv` : This contains mortality processed data for ALexandria
+
+| Column Name | Data Type | Description                                                     |
+| ----------- | --------- | --------------------------------------------------------------- |
+| `year`      | Integer   | The year of the recorded mortality data.                        |
+| `sex`       | String    | Gender of the population (e.g., Male, Female, Both).            |
+| `diagnosis` | String    | The condition being reported (e.g., Asthma, COPD).              |
+| `mortality` | Integer   | Total number of deaths for the given demographic and condition. |
+| `rate`      | Float     | Age-adjusted rate of mortality per 10,000 population.           |
+
+---
+
+`smoke_estimates_with_forecast.csv` : Smoke estimates forecasted by the ARIMA model
+
+| Column Name                | Data Type | Description                                                  |
+| -------------------------- | --------- | ------------------------------------------------------------ |
+| `year`                     | Integer   | The year of the smoke estimate or forecast.                  |
+| `smoke_estimate`           | Float     | The calculated smoke estimate for the year.                  |
+| `forecast`                 | Float     | The forecasted smoke estimate for the year.                  |
+| `confidence_interval_low`  | Float     | The lower bound of the confidence interval for the forecast. |
+| `confidence_interval_high` | Float     | The upper bound of the confidence interval for the forecast. |
+
+---
+
+`fire_dist_info.csv`: Wildfire information with the following required columns with a 650 miles radius
+
+| Column Name | Data Type | Description                                         |
+| ----------- | --------- | --------------------------------------------------- |
+| `fire_id`   | String    | Unique identifier for each fire.                    |
+| `distance`  | Float     | Distance of the fire from Alexandria, VA, in miles. |
+| `fire_type` | String    | The type of fire (e.g., wildfire, prescribed fire). |
+| `size`      | Float     | The size of the fire in acres.                      |
+
+---
+
+`fire_error_info.csv`: The fire which had some errors while running.
+
+| Column Name   | Data Type | Description                                                   |
+| ------------- | --------- | ------------------------------------------------------------- |
+| `fire_id`     | String    | Unique identifier for each fire.                              |
+| `error_type`  | String    | Type of error encountered for this fire (e.g., missing data). |
+| `description` | String    | Description of the error.                                     |
+
+---
+
+`smoke_estimates.csv`: All the smoke estimates till 2022.
+
+| Column Name      | Data Type | Description                                 |
+| ---------------- | --------- | ------------------------------------------- |
+| `year`           | Integer   | The year of the smoke estimate.             |
+| `smoke_estimate` | Float     | The calculated smoke estimate for the year. |
 
 ## Limitations
 
