@@ -1,4 +1,4 @@
-# Data driven Analysis of Wildfire Impact on public health in Alexandria, VA
+# Data driven Analysis: Wildfire Impact on public health in Alexandria, VA
 
 [DATA-512 | Final Course Project](https://docs.google.com/document/d/1_L8X2sDR868-MLbiqVYBIJ20xy79-YWfyIneePloN6U/edit?tab=t.0)
 
@@ -218,8 +218,6 @@ I chose to use an ARIMAX model for its ability to handle exogenous factors which
 I have built separate models to analyse the effect of smoke on hospitalization and mortality for men and women.
 
 ## Findings and Conclusion
-
-### Findings and Conclusion
 
 This study explored the impact of wildfire smoke on respiratory health in Alexandria, Virginia, focusing on asthma and COPD. The findings revealed a weak correlation between smoke exposure and mortality but a moderate link to COPD hospitalizations, particularly among females, highlighting gender disparities. Forecasts showed stable smoke exposure and hospitalization trends over the next three decades, suggesting no significant changes under current conditions.
 
