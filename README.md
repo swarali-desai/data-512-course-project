@@ -146,7 +146,7 @@ This work assumes that users have a working Jupyter Notebook & Python 3 setup. I
 
 ## Usage
 
-It is preffered to run the notebooks in the following order
+It is preffered to run the notebooks in the following order in the src folder
 
 `1_generate_smoke_estimates.ipynb`  
  Generates historical smoke estimates for Alexandria, Virginia, using wildfire data. The notebook processes raw wildfire datasets, calculates proximity and fire size, and applies a smoke estimation formula to quantify smoke levels based on distance and fire characteristics.
